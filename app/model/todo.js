@@ -2,23 +2,27 @@ const mongoose = require('../../lib/mongoose');
 
 const schema = new mongoose.Schema({
   title: {
-    maxlength: 30,
+    maxlength: 100,
     required: true,
     trim: true,
     type: String,
   },
-  content: {
+  completed: {
+    default: false,
     required: true,
-    trim: true,
-    type: String,
+    type: Boolean,
   },
-  author: {
+  completedAt: {
+    default: null,
+    type: Date,
+  },
+  user: {
     required: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
 });
 
-const Post = mongoose.model('Post', schema);
+const Todo = mongoose.model('Todo', schema);
 
-module.exports = Post;
+module.exports = Todo;
