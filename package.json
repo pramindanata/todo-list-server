@@ -1,0 +1,35 @@
+{
+  "name": "my-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "watch": "nodemon --exec \"npm run start\"",
+    "lint": "eslint --ignore-path .gitignore .",
+    "test": "mocha test/**/*.test.js --timeout 10000"
+  },
+  "author": "Eksa Pramindanata",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.4.0",
+    "mongodb": "^3.1.10",
+    "mongoose": "^5.4.2",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^10.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0"
+  }
+}

@@ -1,0 +1,46 @@
+const express = require('express');
+
+const router = express.Router();
+
+/**
+ * Show a list of all resource.
+ */
+router.get('/', async (req, res) => {
+  res.send('Hi');
+});
+
+/**
+ * Store a resource.
+ */
+router.post('/store', async (req, res) => {
+  res.send('Hi');
+});
+
+/**
+ * Show a single resource.
+ */
+router.get('/:id', async (req, res) => {
+  // const { id } = req.params;
+
+  res.send('Hi');
+});
+
+/**
+ * Update a resource.
+ */
+router.put('/:id', async (req, res) => {
+  // const { id } = req.params;
+
+  res.send('Hi');
+});
+
+/**
+ * Delete a resource.
+ */
+router.delete('/:id', async (req, res) => {
+  // const { id } = req.params;
+
+  res.send('Hi');
+});
+
+module.exports = router;
