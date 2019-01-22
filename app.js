@@ -8,8 +8,6 @@ const appConfig = require('./config/app');
 const errorHandler = require('./app/middleware/errorHandler');
 const router = require('./app/controller/index');
 
-const { PORT } = process.env;
-
 const app = express();
 
 app.use(bodyParser.json());

@@ -15,7 +15,7 @@ const comparePassword = (givenPass, hashedPass) => new Promise((resolve, reject)
 const generateToken = user => new Promise((resolve) => {
   // eslint-disable-next-line no-underscore-dangle
   const token = jwt.sign({ id: user._id.toHexString() }, jwtConfig.secret, {
-    expiresIn: 15,
+    expiresIn: jwtConfig.ttl,
   });
 
   resolve(token);
