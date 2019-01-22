@@ -1,7 +1,7 @@
 const express = require('express');
 
-const authController = require('./authController');
-const postController = require('./postController');
+const authController = require('./auth');
+const todoController = require('./todo');
 
 const router = express.Router();
 
@@ -11,6 +11,6 @@ router.get('/', (req, res) => {
   });
 });
 router.use('/', authController);
-router.use('/posts', postController);
+router.use('/todos', todoController);
 
 module.exports = router;
