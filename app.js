@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const appConfig = require('./config/app');
+
 const errorHandler = require('./app/middleware/errorHandler');
 const router = require('./app/controller/index');
 
@@ -14,7 +16,6 @@ app.use(bodyParser.json());
 app.use(router);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Started on port ${PORT}`);
+app.listen(appConfig.port, () => {
+  console.log(`Started on port ${appConfig.port}`);
 });

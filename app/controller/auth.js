@@ -26,6 +26,7 @@ router.post('/login', authReqValidation.login, async (req, res, next) => {
     }
 
     const token = await userService.generateToken(user);
+
     user = {
       name: user.name,
       email: user.email,

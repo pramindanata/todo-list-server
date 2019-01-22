@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const jwtConfig = require('../../config/jwt');
 
 const comparePassword = (givenPass, hashedPass) => new Promise((resolve, reject) => {
   bcrypt.compare(givenPass, hashedPass, (err, res) => {
@@ -11,16 +12,34 @@ const comparePassword = (givenPass, hashedPass) => new Promise((resolve, reject)
   });
 });
 
-const generateToken = async (user) => {
+const generateToken = user => new Promise((resolve) => {
   // eslint-disable-next-line no-underscore-dangle
-  const token = jwt.sign({ id: user._id.toHexString() }, process.env.JWT_SECRET, {
-    expiresIn: 86400 * 7,
+  const token = jwt.sign({ id: user._id.toHexString() }, jwtConfig.secret, {
+    expiresIn: 15,
   });
 
-  return token;
-};
+  resolve(token);
+});
+
+const refreshToken = payload => new Promise((resolve) => {
+  const currentTime = new Date() / 1000;
+  const diff = currentTime - payload.iat;
+
+  if (diff <= jwtConfig.refresh_ttl) {
+    const token = jwt.sign({
+      id: payload.id,
+      iat: payload.iat,
+      exp: Math.floor(currentTime + jwtConfig.ttl),
+    }, jwtConfig.secret);
+
+    resolve(token);
+  } else {
+    resolve(null);
+  }
+});
 
 module.exports = {
   comparePassword,
   generateToken,
+  refreshToken,
 };
