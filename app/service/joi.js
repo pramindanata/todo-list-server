@@ -1,3 +1,5 @@
+const { forEach } = require('lodash');
+
 const validationOptions = {
   abortEarly: false,
   allowUnknown: true,
@@ -6,7 +8,13 @@ const validationOptions = {
 
 const getErrMessages = (err) => {
   const { details } = err;
-  const messages = details.map(item => item.message);
+  const messages = {};
+
+  forEach(details, (category) => {
+    const { key } = category.context;
+
+    (messages[key] || (messages[key] = [])).push(category.message);
+  });
 
   return messages;
 };

@@ -7,8 +7,7 @@ module.exports = (err, req, res, next) => {
   console.log(err.stack);
 
   if (appConfig.debug) {
-    return res.status(500)
-      .send(err.stack);
+    sendJsonWithCode(res, 500, false, err.message, err.stack);
   }
 
   return sendJsonWithCode(res, 500, false, 'Server error');
