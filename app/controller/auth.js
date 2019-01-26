@@ -13,7 +13,7 @@ router.post('/login', authReqValidation.login, async (req, res, next) => {
   const data = req.body;
 
   try {
-    let user = await User.findOne({
+    const user = await User.findOne({
       email: data.email,
     });
 
@@ -29,13 +29,7 @@ router.post('/login', authReqValidation.login, async (req, res, next) => {
 
     const token = await userService.generateToken(user);
 
-    user = {
-      name: user.name,
-      email: user.email,
-    };
-
     return apiService.sendJson(res, true, null, {
-      user,
       token,
     });
   } catch (err) {
