@@ -33,13 +33,21 @@ router.post('/', authenticate(), todoReqValidation.store, async (req, res, next)
   const { body: data, user } = req;
 
   try {
-    await Todo.create({
+    let todo = await Todo.create({
       title: data.title,
       // eslint-disable-next-line no-underscore-dangle
       user: user._id,
     });
 
-    apiService.sendJson(res, true, 'New post added');
+    todo = {
+      // eslint-disable-next-line no-underscore-dangle
+      _id: todo._id,
+      title: todo.title,
+      completed: todo.completed,
+      completedAt: todo.completedAt,
+    };
+
+    apiService.sendJson(res, true, 'New post added', todo);
   } catch (err) {
     next(err);
   }
