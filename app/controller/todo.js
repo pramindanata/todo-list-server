@@ -18,7 +18,11 @@ router.get('/', authenticate(), async (req, res, next) => {
 
   try {
     // eslint-disable-next-line no-underscore-dangle
-    const posts = await Todo.find({ user: user._id }, '_id title completed completedAt');
+    const posts = await Todo.find({ user: user._id }, '_id title completed completedAt', {
+      sort: {
+        _id: -1,
+      },
+    });
 
     apiService.sendJson(res, true, null, posts);
   } catch (err) {
@@ -62,28 +66,31 @@ router.put('/:id/toggle', authenticate(), async (req, res, next) => {
   validateObjectId(id, res);
 
   try {
-    const todo = await Todo.findOne({ _id: id });
-    let data = {};
+    let todo = await Todo.findOne({ _id: id });
 
     if (!todo) {
       return apiService.sendJsonWithCode(res, 404, false, 'Todo not found');
     }
 
     if (!todo.completed) {
-      data = {
-        completed: true,
-        completedAt: moment().format('Y-MM-DD HH:mm:ss'),
-      };
+      todo.completed = true;
+      todo.completedAt = moment().format('Y-MM-DD HH:mm:ss');
     } else {
-      data = {
-        completed: false,
-        completedAt: null,
-      };
+      todo.completed = false;
+      todo.completedAt = null;
     }
 
-    await todo.update(data);
+    await todo.save();
 
-    return apiService.sendJson(res, true, 'Todo updated');
+    todo = {
+      // eslint-disable-next-line no-underscore-dangle
+      _id: todo._id,
+      title: todo.title,
+      completed: todo.completed,
+      completedAt: todo.completedAt,
+    };
+
+    return apiService.sendJson(res, true, 'Todo updated', todo);
   } catch (err) {
     return next(err);
   }
